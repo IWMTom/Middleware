@@ -20,10 +20,24 @@ public class Middleware
     {
         Portal p1 = new Portal("p1");
         
-        PowerStation a1 = new PowerStation("Hartlepool Power Station");
+        UserAgent a1 = new UserAgent("Hartlepool Power Station");
+        a1.addMessageListener(new MessageListener()
+        {
+            public void messageReceived(Message m)
+            {
+                System.out.println("Hartlepool Power Station has received a message!");
+            }
+        });
         p1.addAgent(a1);
         
-        WeatherStation a2 = new WeatherStation("Met Office Station #3");
+        UserAgent a2 = new UserAgent("Met Office Station #3");
+        a2.addMessageListener(new MessageListener()
+        {
+            public void messageReceived(Message m)
+            {
+                System.out.println("Met Office Station #3 has received a message!");
+            }
+        });        
         p1.addAgent(a2);
         
         a2.sendMessage(new Message("Hartlepool Power Station", "Met Office Station #3", "It's getting mighty chilly!"));

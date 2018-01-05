@@ -8,8 +8,9 @@
 
 package uk.ac.tees.middleware;
 
-public abstract class UserAgent extends MetaAgent
+public class UserAgent extends MetaAgent
 {
+    private MessageListener ml;
     private Portal portal;
     
     /**
@@ -42,6 +43,17 @@ public abstract class UserAgent extends MetaAgent
     public void sendMessage(Message m) throws InterruptedException
     {
         this.portal.put(m);
+    }   
+    
+    public void addMessageListener(MessageListener ml)
+    {
+        this.ml = ml;
     }    
+
+    @Override
+    void handleMessage(Message m)
+    {
+        this.ml.messageReceived(m);
+    }
 
 }
