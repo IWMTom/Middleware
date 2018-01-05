@@ -1,13 +1,13 @@
 /**
  * WeatherStation.java
- * A concrete implementation of a Meta Agent (User Agent)
+ * A concrete implementation of a User Agent
  * 
  * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;
 
-public class WeatherStation extends MetaAgent
+public class WeatherStation extends UserAgent
 {
     /**
      * Class constructor

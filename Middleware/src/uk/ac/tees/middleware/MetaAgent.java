@@ -13,9 +13,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
 {
-    private String name;
-    private Portal portal;
-    private Thread t;
+    protected String name;
+    protected Thread t;
 
     /**
      * Class constructor
@@ -29,16 +28,7 @@ public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
         this.t = new Thread(this);
     }
     
-    /**
-     * Sets the Portal, and starts the Blocking Queue thread
-     * 
-     * @param p reference to the Portal
-     */
-    public void start(Portal p)
-    {
-        this.portal = p;
-        this.t.start();
-    }
+    public abstract void start(Portal p);
     
     /**
      * Constantly pulls from the queue and sends messages to the message handler
@@ -54,17 +44,6 @@ public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
             }
             catch (InterruptedException ex){}     
         }
-    }
-    
-    /**
-     * Puts the message into the Portal blocking queue
-     * 
-     * @param m reference to Message
-     * @throws InterruptedException 
-     */
-    public void sendMessage(Message m) throws InterruptedException
-    {
-        portal.put(m);
     }
     
     /**

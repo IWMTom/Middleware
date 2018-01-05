@@ -1,8 +1,8 @@
 /**
  * Portal.java
  * A class that defines a Portal in the Middleware.
- * It is an extension of a Linked Blocking Queue, and implements the Runnable
- * interface, to allow the blocking queue to be in its own thread.
+ * It is an extension of a Meta Agent, with a directory of
+ * other Meta Agents (User Agents and Portals).
  * 
  * @author Tom Wilson (S605130)
  */
@@ -10,12 +10,9 @@
 package uk.ac.tees.middleware;
 
 import java.util.HashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 
-public class Portal extends LinkedBlockingQueue implements Runnable
+public class Portal extends MetaAgent
 {
-    private final String name;
-    private final Thread t;
     private HashMap<String, MetaAgent> directory = new HashMap<>();
 
     /**
@@ -25,11 +22,12 @@ public class Portal extends LinkedBlockingQueue implements Runnable
      */      
     public Portal(String name)
     {
-        this.name = name;
-        this.t = new Thread(this);
+        super(name);
         
         this.t.start();
     }
+    
+    public void start(Portal p){}
     
     /**
      * Adds an agent to the directory of agents for the Portal,
@@ -50,24 +48,13 @@ public class Portal extends LinkedBlockingQueue implements Runnable
      * @param m reference to Message
      * @throws InterruptedException 
      */
-    public void handleMessage(Message m) throws InterruptedException
+    @Override
+    public void handleMessage(Message m)
     {
-        directory.get(m.getRecipient()).put(m);
-    }
-
-    /**
-     * Constantly pulls from the queue and sends messages to the message handler
-     */
-    public void run()
-    {
-        while (true)
+        try
         {
-            try 
-            {
-                handleMessage((Message) this.take());
-                Thread.sleep(100);
-            }
-            catch (InterruptedException ex){}     
+            directory.get(m.getRecipient()).put(m);
         }
+        catch (InterruptedException ex) {}
     }
 }

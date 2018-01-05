@@ -22,6 +22,7 @@ public class Middleware
         
         PowerStation a1 = new PowerStation("Hartlepool Power Station");
         p1.addAgent(a1);
+        
         WeatherStation a2 = new WeatherStation("Met Office Station #3");
         p1.addAgent(a2);
         
