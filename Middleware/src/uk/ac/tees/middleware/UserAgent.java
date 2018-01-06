@@ -45,13 +45,23 @@ public class UserAgent extends MetaAgent
         this.portal.put(m);
     }   
     
+    /**
+     * Adds a message listener to the User Agent
+     * 
+     * @param ml reference to MessageListener
+     */
     public void addMessageListener(MessageListener ml)
     {
         this.ml = ml;
     }    
 
+    /**
+     * Passes the Message on to the MessageListener
+     * 
+     * @param m reference to Message
+     */
     @Override
-    void handleMessage(Message m)
+    public void handleMessage(Message m)
     {
         this.ml.messageReceived(m);
     }

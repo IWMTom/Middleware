@@ -18,7 +18,10 @@ public class Middleware
      */
     public static void main(String[] args) throws InterruptedException
     {
+        Router r1 = new Router("r1");
+        
         Portal p1 = new Portal("p1");
+        p1.setRouter(r1);
         
         UserAgent a1 = new UserAgent("Hartlepool Power Station");
         a1.addMessageListener(new MessageListener()
@@ -30,6 +33,9 @@ public class Middleware
         });
         p1.addAgent(a1);
         
+        Portal p2 = new Portal("p2");
+        p2.setRouter(r1);
+        
         UserAgent a2 = new UserAgent("Met Office Station #3");
         a2.addMessageListener(new MessageListener()
         {
@@ -38,7 +44,7 @@ public class Middleware
                 System.out.println("Met Office Station #3 has received a message!");
             }
         });        
-        p1.addAgent(a2);
+        p2.addAgent(a2);
         
         a2.sendMessage(new Message("Hartlepool Power Station", "Met Office Station #3", "It's getting mighty chilly!"));
         a1.sendMessage(new Message("Met Office Station #3", "Hartlepool Power Station", "I better start burning some nuclears!"));

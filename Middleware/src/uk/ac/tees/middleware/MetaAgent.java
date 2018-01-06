@@ -1,6 +1,6 @@
 /**
  * MetaAgent.java
- * An abstract class that defines a Meta Agent in the Middleware.
+ * An abstract class that defines a Meta Agent in the middleware.
  * It is an extension of a Linked Blocking Queue, and implements the Runnable
  * interface, to allow the blocking queue to be in its own thread.
  * 
@@ -13,7 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
 {
-    protected String name;
+    private String name;
     protected Thread t;
 
     /**
