@@ -62,6 +62,8 @@ public class Portal extends MetaAgent
     @Override
     public void handleMessage(Message m)
     {
+        Middleware.demo.addRow(m, "Portal: " + this.getName());
+        
         if (this.directory.containsKey(m.getRecipient()))
         {
             try

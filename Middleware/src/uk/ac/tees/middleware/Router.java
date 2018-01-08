@@ -45,6 +45,7 @@ public class Router extends MetaAgent
     @Override
     public void handleMessage(Message m)
     {
+        Middleware.demo.addRow(m, "Router: " + this.getName());
         directory.get(m.getRecipient()).handleMessage(m);
     }
 
