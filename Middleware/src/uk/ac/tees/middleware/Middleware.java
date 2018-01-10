@@ -49,7 +49,6 @@ public class Middleware
             }
         });        
         p2.addAgent(a2);
-        
 
         a2.sendMessage(new Message("Hartlepool Power Station", "Met Office Station #3", "It's getting mighty chilly!"));
         a1.sendMessage(new Message("Met Office Station #3", "Hartlepool Power Station", "I better start burning some nuclears!"));              

@@ -40,10 +40,19 @@ public class Router extends MetaAgent
      * Passes the message on to the respective Portal
      * 
      * @param m reference to Message
+     * @throws uk.ac.tees.middleware.UnroutableException
+     * @throws java.lang.InterruptedException
      */
     @Override
-    public void handleMessage(Message m) throws UnroutableException
+    public void handleMessage(Message m) throws UnroutableException, InterruptedException
     {
-        directory.get(m.getRecipient()).handleMessage(m);
+        if (this.directory.containsKey(m.getRecipient()))
+        {
+            directory.get(m.getRecipient()).handleMessage(m);           
+        }
+        else
+        {
+            throw new UnroutableException();
+        }  
     }
 }
