@@ -23,8 +23,6 @@ public class Portal extends MetaAgent
     public Portal(String name)
     {
         super(name);
-        
-        this.t.start();
     }
     
     /**
@@ -39,43 +37,62 @@ public class Portal extends MetaAgent
     
     /**
      * Adds an agent to the directory of agents for the Portal,
-     * starts its respective thread, and adds a reference of the 
-     * Portal/Agent connection to the Router.
+     * starts its respective thread.
+     * 
+     * If a Router is connected, a reference to the agent is added to it.
      * 
      * @param a reference to Meta Agent
      */
-    public void addAgent(MetaAgent a)
+    public synchronized void addAgent(Agent a)
     {
-        this.r.addAgent(a, this);
+        if (this.r != null)
+        {
+            this.r.addAgent(a, this);
+        }
+        
         this.directory.put(a.getName(), a);
-        a.start(this);            
+        a.setPortal(this);            
     }
     
     /**
      * Finds the agent in the directory, and puts the message
      * onto its blocking queue - if the agent isn't available in
-     * the Portal's directory, the Router is consulted.
+     * the Portal's directory and a Router is connected, it is consulted.
+     * If there isn't a Router connected, an exception is thrown.
      * 
      * @param m reference to Message
-     * @throws InterruptedException 
+     * @throws uk.ac.tees.middleware.UnroutableException
+     * @throws java.lang.InterruptedException
      */
     @Override
-    public void handleMessage(Message m)
+    public void handleMessage(Message m) throws UnroutableException, InterruptedException
     {
         if (this.directory.containsKey(m.getRecipient()))
         {
-            try
+            MetaAgent recipient = directory.get(m.getRecipient());
+
+            if (!recipient.isRunning())
             {
-                directory.get(m.getRecipient()).put(m);
+                recipient.start();
             }
-            catch (InterruptedException ex) {}            
+
+            recipient.put(m);            
         }
         else
         {
-            this.r.handleMessage(m);
+            if (this.r != null)
+            {
+                if (!this.r.isRunning())
+                {
+                    this.r.start();
+                }
+
+                this.r.handleMessage(m);                
+            }
+            else
+            {
+                throw new UnroutableException();
+            }
         }
-    }
-    
-    @Override
-    public void start(Portal p){}    
+    } 
 }

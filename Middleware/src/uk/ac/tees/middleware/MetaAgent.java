@@ -1,20 +1,22 @@
 /**
  * MetaAgent.java
  * An abstract class that defines a Meta Agent in the middleware.
- * It is an extension of a Linked Blocking Queue, and implements the Runnable
- * interface, to allow the blocking queue to be in its own thread.
+ * It is an extension of a Message Queue, and implements the Runnable
+ * interface, to allow the message queue to be in its own thread.
  * 
  * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
+public abstract class MetaAgent extends MessageQueue implements Runnable
 {
     private String name;
-    protected Thread t;
+    private Thread t;
+    private boolean isRunning;
 
     /**
      * Class constructor
@@ -25,10 +27,30 @@ public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
     {
         super();
         this.name = name;
-        this.t = new Thread(this);
     }
     
-    public abstract void start(Portal p);
+    /**
+     * If the thread isn't already running, it is started
+     */
+    public void start()
+    {
+        if (!this.isRunning)
+        {
+            this.t = new Thread(this);
+            this.t.start();   
+            this.isRunning = true;
+        }
+    }
+    
+    /**
+     * Gets the status of the thread
+     * 
+     * @return isRunning
+     */
+    public boolean isRunning()
+    {
+        return this.isRunning;
+    }
     
     /**
      * Constantly pulls from the queue and sends messages to the message handler
@@ -40,9 +62,15 @@ public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
             try 
             {
                 handleMessage((Message) this.take());
-                Thread.sleep(100);
             }
-            catch (InterruptedException ex){}     
+            catch (UnroutableException ex)
+            {
+                Logger.getLogger(MetaAgent.class.getName()).log(Level.WARNING, "Recipient Agent unreachable", ex);
+            }
+            catch (UnhandledMessageException ex)
+            {
+                Logger.getLogger(MetaAgent.class.getName()).log(Level.WARNING, "Message handler not specified", ex);
+            } catch (Exception ex) {}
         }
     }
     
@@ -57,9 +85,19 @@ public abstract class MetaAgent extends LinkedBlockingQueue implements Runnable
     }
     
     /**
+     * Gets the thread
+     * 
+     * @return thread 
+     */
+    public Thread getThread()
+    {
+        return this.t;
+    }
+    
+    /**
      * Abstract method for User Agents to handle incoming messages
      * 
      * @param m reference to Message
      */
-    abstract void handleMessage(Message m);
+    abstract void handleMessage(Message m) throws Exception;
 }

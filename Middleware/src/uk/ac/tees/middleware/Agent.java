@@ -1,14 +1,14 @@
 /**
- * UserAgent.java
- * A wrapper for a Meta Agent, that adds implementation for assigning
- * a Meta Agent to a Portal.
+ * Agent.java
+ * A User Agent - a wrapper for a Meta Agent, that adds
+ * implementation for assigning a Meta Agent to a Portal.
  * 
  * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;
 
-public class UserAgent extends MetaAgent
+public class Agent extends MetaAgent
 {
     private MessageListener ml;
     private Portal portal;
@@ -18,20 +18,19 @@ public class UserAgent extends MetaAgent
      * 
      * @param name name of the Meta Agent
      */
-    public UserAgent(String name)
+    public Agent(String name)
     {
         super(name);
     }
     
     /**
-     * Sets the Portal, and starts the Blocking Queue thread
+     * Sets the Portal that the Agent is connected to
      * 
      * @param p reference to the Portal
      */
-    public void start(Portal p)
+    public void setPortal(Portal p)
     {
         this.portal = p;
-        this.t.start();
     }
 
     /**
@@ -42,6 +41,11 @@ public class UserAgent extends MetaAgent
      */
     public void sendMessage(Message m) throws InterruptedException
     {
+        if (!this.portal.isRunning())
+        {
+            this.portal.start(); 
+        }
+        
         this.portal.put(m);
     }   
     
@@ -59,11 +63,19 @@ public class UserAgent extends MetaAgent
      * Passes the Message on to the MessageListener
      * 
      * @param m reference to Message
+     * @throws uk.ac.tees.middleware.UnhandledMessageException
      */
     @Override
-    public void handleMessage(Message m)
+    public void handleMessage(Message m) throws Exception
     {
-        this.ml.messageReceived(m);
+        if (this.ml != null)
+        {
+            this.ml.messageReceived(m);
+        }
+        else
+        {
+            throw new UnhandledMessageException();
+        }
     }
 
 }

@@ -23,7 +23,6 @@ public class Router extends MetaAgent
     public Router(String name)
     {
         super(name);
-        this.t.start();
     }
     
     /**
@@ -32,7 +31,7 @@ public class Router extends MetaAgent
      * @param a reference to Meta Agent
      * @param p reference to Portal
      */
-    public void addAgent(MetaAgent a, Portal p)
+    public synchronized void addAgent(MetaAgent a, Portal p)
     {
         directory.put(a.getName(), p);
     }
@@ -43,11 +42,8 @@ public class Router extends MetaAgent
      * @param m reference to Message
      */
     @Override
-    public void handleMessage(Message m)
+    public void handleMessage(Message m) throws UnroutableException
     {
         directory.get(m.getRecipient()).handleMessage(m);
     }
-
-    @Override
-    public void start(Portal p){}
 }
