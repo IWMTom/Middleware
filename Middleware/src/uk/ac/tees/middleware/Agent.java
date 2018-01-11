@@ -61,12 +61,13 @@ public class Agent extends MetaAgent
 
     /**
      * Passes the Message on to the MessageListener
+     * If there is an AgentMonitor connected, messages are logged to it.
      * 
      * @param m reference to Message
      * @throws uk.ac.tees.middleware.UnhandledMessageException
      */
     @Override
-    public synchronized void handleMessage(Message m) throws Exception
+    public void handleMessage(Message m) throws Exception
     {
         if (this.getAgentMonitor() != null)
         {

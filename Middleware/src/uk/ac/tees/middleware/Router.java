@@ -38,13 +38,14 @@ public class Router extends MetaAgent
     
     /**
      * Passes the message on to the respective Portal
+     * If there is an AgentMonitor connected, messages are logged to it.
      * 
      * @param m reference to Message
      * @throws uk.ac.tees.middleware.UnroutableException
      * @throws java.lang.InterruptedException
      */
     @Override
-    public synchronized void handleMessage(Message m) throws UnroutableException, InterruptedException
+    public void handleMessage(Message m) throws UnroutableException, InterruptedException
     {
         if (this.getAgentMonitor() != null)
         {

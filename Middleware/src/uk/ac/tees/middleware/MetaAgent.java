@@ -103,12 +103,21 @@ public abstract class MetaAgent extends MessageQueue implements Runnable
     abstract void handleMessage(Message m) throws Exception;
     
     
+    /**
+     * Sets the AgentMonitor
+     * 
+     * @param am reference to AgentMonitor 
+     */
     public void setAgentMonitor(AgentMonitor am)
     {
         this.am = am;
     }
     
-    
+    /**
+     * Gets the AgentMonitor
+     * 
+     * @return reference to AgentMonitor 
+     */
     public AgentMonitor getAgentMonitor()
     {
         return this.am;

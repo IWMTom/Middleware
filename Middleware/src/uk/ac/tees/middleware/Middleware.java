@@ -34,7 +34,7 @@ public class Middleware
             @Override
             public void messageReceived(Message m)
             {
-                //System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
+                System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
             }
         });
         a1.setAgentMonitor(am1);
@@ -51,19 +51,33 @@ public class Middleware
             @Override
             public void messageReceived(Message m)
             {
-                //System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
+                System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
             }
         });        
         a2.setAgentMonitor(am1);
         p2.addAgent(a2);
-
-        a2.sendMessage(new Message("Hartlepool Power Station", "Met Office Station #3", "It's getting mighty chilly!"));
-        a1.sendMessage(new Message("Met Office Station #3", "Hartlepool Power Station", "I better start burning some nuclears!"));              
         
-        while (true)
+        Agent a3 = new Agent("Met Office Station #5");
+        a3.addMessageListener(new MessageListener()
         {
-            System.out.println(am1.getMessageList());
-            Thread.sleep(1000);
-        }
+            @Override
+            public void messageReceived(Message m)
+            {
+                System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
+            }
+        });        
+        a3.setAgentMonitor(am1);
+        p2.addAgent(a3);        
+        
+        
+        // Agent to Agent messaging (same portal)
+        a3.sendMessage(new Message("Met Office Station #3", "Met Office Station #5", "Hello, World!"));              
+        
+        // Agent to Agent messaging (different portals via router)
+        a1.sendMessage(new Message("Met Office Station #3", "Hartlepool Power Station", "Hello, World!")); 
+        
+        // Agent to non-existent Agent messaging
+        a3.sendMessage(new Message("Nobody", "Met Office Station #5", "Hello, World!")); 
+        
     }
 }

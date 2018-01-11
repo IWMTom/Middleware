@@ -59,13 +59,14 @@ public class Portal extends MetaAgent
      * onto its blocking queue - if the agent isn't available in
      * the Portal's directory and a Router is connected, it is consulted.
      * If there isn't a Router connected, an exception is thrown.
+     * If there is an AgentMonitor connected, messages are logged to it.
      * 
      * @param m reference to Message
      * @throws uk.ac.tees.middleware.UnroutableException
      * @throws java.lang.InterruptedException
      */
     @Override
-    public synchronized void handleMessage(Message m) throws UnroutableException, InterruptedException
+    public void handleMessage(Message m) throws UnroutableException, InterruptedException
     {
         if (this.getAgentMonitor() != null)
         {
