@@ -18,11 +18,15 @@ public class Middleware
      */
     public static void main(String[] args) throws InterruptedException
     {   
+        AgentMonitor am1 = new AgentMonitor("am1");
+        
         Router r1 = new Router("r1");
+        r1.setAgentMonitor(am1);
         
         
         Portal p1 = new Portal("p1");
         p1.setRouter(r1);
+        p1.setAgentMonitor(am1);
         
         Agent a1 = new Agent("Hartlepool Power Station");
         a1.addMessageListener(new MessageListener()
@@ -30,14 +34,16 @@ public class Middleware
             @Override
             public void messageReceived(Message m)
             {
-                System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
+                //System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
             }
         });
+        a1.setAgentMonitor(am1);
         p1.addAgent(a1);
         
         
         Portal p2 = new Portal("p2");
         p2.setRouter(r1);
+        p2.setAgentMonitor(am1);
         
         Agent a2 = new Agent("Met Office Station #3");
         a2.addMessageListener(new MessageListener()
@@ -45,12 +51,19 @@ public class Middleware
             @Override
             public void messageReceived(Message m)
             {
-                System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
+                //System.out.println(m.getRecipient() + " has received a message from " + m.getSender() + " - it says: " + m.getMessage());
             }
         });        
+        a2.setAgentMonitor(am1);
         p2.addAgent(a2);
 
         a2.sendMessage(new Message("Hartlepool Power Station", "Met Office Station #3", "It's getting mighty chilly!"));
         a1.sendMessage(new Message("Met Office Station #3", "Hartlepool Power Station", "I better start burning some nuclears!"));              
+        
+        while (true)
+        {
+            System.out.println(am1.getMessageList());
+            Thread.sleep(1000);
+        }
     }
 }

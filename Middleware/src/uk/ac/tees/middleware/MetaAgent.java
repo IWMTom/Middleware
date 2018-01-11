@@ -17,6 +17,7 @@ public abstract class MetaAgent extends MessageQueue implements Runnable
     private String name;
     private Thread t;
     private boolean isRunning;
+    private AgentMonitor am;
 
     /**
      * Class constructor
@@ -36,9 +37,9 @@ public abstract class MetaAgent extends MessageQueue implements Runnable
     {
         if (!this.isRunning)
         {
-            this.t = new Thread(this);
-            this.t.start();   
-            this.isRunning = true;
+            this.t          = new Thread(this);
+            this.isRunning  = true;
+            this.t.start();  
         }
     }
     
@@ -100,4 +101,16 @@ public abstract class MetaAgent extends MessageQueue implements Runnable
      * @param m reference to Message
      */
     abstract void handleMessage(Message m) throws Exception;
+    
+    
+    public void setAgentMonitor(AgentMonitor am)
+    {
+        this.am = am;
+    }
+    
+    
+    public AgentMonitor getAgentMonitor()
+    {
+        return this.am;
+    }
 }

@@ -9,7 +9,7 @@ package uk.ac.tees.middleware;
 
 public class Message
 {
-    private String recipient, sender, message;
+    private String recipient, sender, message, currentNode;
     
     /**
      * Class constructor
@@ -20,9 +20,22 @@ public class Message
      */
     public Message(String recipient, String sender, String message)
     {
-        this.recipient = recipient;
-        this.sender = sender;
-        this.message = message;
+        this.recipient  = recipient;
+        this.sender     = sender;
+        this.message    = message;
+    }
+    
+    /**
+     * Alternative class constructor for system messages
+     * 
+     * @param message message content
+     */
+    public Message(String recipient, String sender, String message, String currentNode)
+    {
+        this.recipient      = recipient;
+        this.sender         = sender;
+        this.message        = message;
+        this.currentNode    = currentNode;
     }
     
     /**
@@ -53,5 +66,11 @@ public class Message
     public String getMessage()
     {
         return this.message;
+    }
+    
+    
+    public String getCurrentNode()
+    {
+        return this.currentNode;
     }
 }

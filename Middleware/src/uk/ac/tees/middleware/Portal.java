@@ -65,8 +65,18 @@ public class Portal extends MetaAgent
      * @throws java.lang.InterruptedException
      */
     @Override
-    public void handleMessage(Message m) throws UnroutableException, InterruptedException
+    public synchronized void handleMessage(Message m) throws UnroutableException, InterruptedException
     {
+        if (this.getAgentMonitor() != null)
+        {
+            if (!this.getAgentMonitor().isRunning())
+            {
+                this.getAgentMonitor().start();
+            }
+            
+            this.getAgentMonitor().put(new Message(m.getRecipient(), m.getSender(), m.getMessage(), this.getName()));
+        }
+        
         if (this.directory.containsKey(m.getRecipient()))
         {
             MetaAgent recipient = directory.get(m.getRecipient());

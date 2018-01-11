@@ -66,8 +66,18 @@ public class Agent extends MetaAgent
      * @throws uk.ac.tees.middleware.UnhandledMessageException
      */
     @Override
-    public void handleMessage(Message m) throws Exception
+    public synchronized void handleMessage(Message m) throws Exception
     {
+        if (this.getAgentMonitor() != null)
+        {
+            if (!this.getAgentMonitor().isRunning())
+            {
+                this.getAgentMonitor().start();
+            }
+            
+            this.getAgentMonitor().put(new Message(m.getRecipient(), m.getSender(), m.getMessage(), this.getName()));
+        }      
+        
         if (this.ml != null)
         {
             this.ml.messageReceived(m);
