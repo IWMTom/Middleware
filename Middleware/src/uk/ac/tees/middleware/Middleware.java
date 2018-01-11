@@ -8,8 +8,8 @@ package uk.ac.tees.middleware;
 public class Middleware
 {
     /**
-     * Creates a Portal and two User Agents - the User Agents are added
-     * to the Portal. Messages are then sent between the two User Agents.
+     * Creates two Portals and three User Agents - the User Agents are added
+     * to the Portals. Messages are then sent between the User Agents.
      * 
      * @param args
      * @throws InterruptedException 
