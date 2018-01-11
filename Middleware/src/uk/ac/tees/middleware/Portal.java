@@ -2,8 +2,6 @@
  * Portal.java
  * A class that defines a Portal in the middleware.
  * It is an extension of a Meta Agent, with a directory of other agents.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

@@ -3,8 +3,6 @@
  * An abstract class that defines the template for a MessageListener.
  * The functionality of the messageReceived() method will be added to each
  * agent when they are declared.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

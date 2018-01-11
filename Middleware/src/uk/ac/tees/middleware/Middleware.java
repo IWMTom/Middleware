@@ -1,8 +1,6 @@
 /**
  * Middleware.java
  * A driver test harness to test operation of the Middleware.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

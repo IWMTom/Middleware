@@ -3,8 +3,6 @@
  * An abstract class that defines a Meta Agent in the middleware.
  * It is an extension of a Message Queue, and implements the Runnable
  * interface, to allow the message queue to be in its own thread.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

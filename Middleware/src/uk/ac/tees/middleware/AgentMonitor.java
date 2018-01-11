@@ -2,8 +2,6 @@
  * AgentMonitor.java
  * An extension of MetaAgent - all messages are sent to the AgentMonitor
  * and stored in an ArrayList. The list can then be retrieved.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

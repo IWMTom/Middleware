@@ -2,8 +2,6 @@
  * Agent.java
  * A User Agent - a wrapper for a Meta Agent, that adds
  * implementation for assigning a Meta Agent to a Portal.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

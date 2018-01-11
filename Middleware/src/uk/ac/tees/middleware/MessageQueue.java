@@ -2,8 +2,6 @@
  * MessageQueue.java
  * A wrapper of a LinkedBlockingQueue that limits interactions
  * to solely the put() and take() methods, all of type Message.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

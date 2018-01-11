@@ -1,8 +1,6 @@
 /**
  * Message.java
  * A class that describes the format of a message within the Middleware
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;

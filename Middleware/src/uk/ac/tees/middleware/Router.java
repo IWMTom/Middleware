@@ -3,8 +3,6 @@
  * A class that defines a Router in the middleware.
  * It is an extension of a Meta Agent, with a directory of Portal/Agents.
  * The Router has routing information for every portal in the middleware.
- * 
- * @author Tom Wilson (S605130)
  */
 
 package uk.ac.tees.middleware;
